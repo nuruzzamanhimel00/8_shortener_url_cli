@@ -62,6 +62,8 @@ import {mapGetters , mapActions} from 'vuex'
 
 // import $ from "jquery";
 
+import AppStorage from '../../../../storage/AppStorage.js'
+
 export default {
     data(){
         return {
@@ -69,7 +71,7 @@ export default {
         }
     },
     mounted(){
-        this.userAccessToken(localStorage.getItem('UserToken'));
+        this.userAccessToken(AppStorage.getToken());
         // this.footerManage();
     
     },
@@ -88,10 +90,7 @@ export default {
     },
     methods:{
          ...mapActions('fontendAuthMod',{userAccessToken:'userAccessToken'}),
-          
-
          showProfileImage(img){
-        //    alert(moment().format('YYYY'));
             if(img.indexOf("data") != -1){
                 return img;
             }else{
@@ -99,25 +98,11 @@ export default {
             }
          },
          logount(){
-             localStorage.removeItem('UserToken');
-                 this.userAccessToken(null);
-             this.$router.push({name:"compFontDashboard"});
-
-            
-         },
-        //  footerManage(){
-        //      let windowHeight = window.innerHeight;
-        //      let navHeight =$(".navSection").innerHeight();
-        //      let footerHeight =$(".footerSection").innerHeight();
-
-        //     let contentHeight = windowHeight - (navHeight +  footerHeight);
-        //     $(".mainBodySection").attr('style',"height:"+contentHeight+"px")
-        //      console.log(windowHeight);
-        //      console.log(navHeight);
-        //      console.log(footerHeight);
-        //      console.log(contentHeight);
-        //  }
-           
+            AppStorage.removeToken('UserToken');
+            AppStorage.removeToken('userid');
+            this.userAccessToken(null);
+            this.$router.push({name:"compFontDashboard"});
+         },    
     },
     components:{
       

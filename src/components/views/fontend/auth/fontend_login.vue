@@ -51,6 +51,9 @@
 <script>
 import Form from 'vform'
 
+import AppStorage from '../../../../storage/AppStorage.js'
+import Api from '../../../../Api/Api.js'
+
 // //izitoast toster insall
 import iziToast from "izitoast"
 import("../../../../../node_modules/izitoast/dist/css/iziToast.min.css")
@@ -62,12 +65,10 @@ export default {
     data(){
         return {
             form: new Form({
-               
                 email: '',
                 password: '',
             
             }),
-            
         }
     },
     mounted(){
@@ -79,8 +80,10 @@ export default {
     methods:{
          ...mapActions('fontendAuthMod',{userAccessToken:'userAccessToken'}),
         async login () {
-         await this.form.post('/login')
-         .then((response)=>{
+         await this.form.post('/login',{
+              headers : Api.getHeaderWithoutAuth()  
+            })
+            .then((response)=>{
              if(response.data.status == 'success'){
                    this.form.reset();
                   iziToast.success({
@@ -91,13 +94,12 @@ export default {
                     let UserToken = response.data.token;
                     let userid = response.data.userid;
                     // user token store
-                    localStorage.setItem('UserToken',UserToken);
-                    localStorage.setItem('userid',userid);
+                    AppStorage.setToken('UserToken',UserToken);
+                    AppStorage.setToken('userid',userid);
                     // fetch auth user info
                     this.userAccessToken(UserToken);
-                    this.$router.push({name:"compFontDashboard"});
-                       
-             }
+                    this.$router.push({name:"compFontDashboard"});     
+            }
          });
        
         },
@@ -122,7 +124,8 @@ export default {
             }
         },
         userTokenExistCheck(){
-            let userToken =  localStorage.getItem('UserToken');
+            // let userToken =  localStorage.getItem('UserToken');
+            let userToken =  AppStorage.getToken();
             if(userToken){
                  this.$router.push({name:"compFontDashboard"});
             }

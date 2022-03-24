@@ -94,6 +94,9 @@ import iziToast from "izitoast"
 import("../../../../../node_modules/izitoast/dist/css/iziToast.min.css")
 import("../../../../../node_modules/izitoast/dist/js/iziToast.min.js")
 
+import AppStorage from '../../../../storage/AppStorage.js'
+import Api from '../../../../Api/Api.js'
+
 export default {
     data(){
         return {
@@ -117,18 +120,20 @@ export default {
     },
     methods:{
         async registration () {
-         await this.form.post('/registration')
-         .then((response)=>{
-             if(response.data.status == 'success'){
-                   this.form.reset();
-                  iziToast.success({
-                    title: 'OK',
-                    message: 'Registration successfully',
-                    });
-                       
-             }
-         });
-        // ...
+         await this.form.post('/registration',{
+              headers : Api.getHeaderWithoutAuth()  
+            })
+            .then((response)=>{
+                if(response.data.status == 'success'){
+                    this.form.reset();
+                    iziToast.success({
+                        title: 'OK',
+                        message: 'Registration successfully',
+                        });
+                        
+                }
+            });
+     
         },
         changeImageFile(event){
              var file = event.target.files[0];
@@ -150,7 +155,7 @@ export default {
             }
         },
          userTokenExistCheck(){
-            let userToken =  localStorage.getItem('UserToken');
+            let userToken =  AppStorage.getToken();
             if(userToken){
                  this.$router.push({name:"compFontDashboard"});
             }

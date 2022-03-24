@@ -69,125 +69,14 @@ export const routes = [
                 name:'compShortUrl'
             },
            
-            // {
-            //     path: 'brnd-wise-products/:brandId', 
-            //     component: compFontBrandWiseProdct,
-            //     name:'compFontBrandWiseProdct'
-            // },
-            // {
-            //     path: 'category-wise-products/:catid', 
-            //     component: compFontCatdWiseProdct,
-            //     name:'compFontCatdWiseProdct'
-            // },
-            // {
-            //     path: 'products/:slug', 
-            //     component: compFontProductView,
-            //     name:'compFontProductView'
-            // },
-            // {
-            //     path: 'products-search', 
-            //     component: compFontProductSearch,
-            //     name:'compFontProductSearch'
-            // },
-           
-            // {
-            //     path: 'website-login', 
-            //     component: compWebLogin,
-            //     name:'compWebLogin'
-            // },
-            // {
-            //     path: 'my-dashboard', 
-            //     component: compFontMyDash,
-            //     name:'compFontMyDash'
-            // },
-            // {
-            //     path: 'my-user-profile', 
-            //     component: compFontMyUserPro,
-            //     name:'compFontMyUserPro'
-            // },
-            // {
-            //     path: 'user-change-password', 
-            //     component: compFontMyUserChangePass,
-            //     name:'compFontMyUserChangePass'
-            // },
-            // {
-            //     path: 'my-carts', 
-            //     component: compFontMyCart,
-            //     name:'compFontMyCart'
-            // },
-            // {
-            //     path: 'my-carts-checkout', 
-            //     component: compFontMyCartCheckout,
-            //     name:'compFontMyCartCheckout'
-            // },
         ]
         
     },
-    // {
-    //     path: '/admin/login', 
-    //     component: compAdminLogin,
-    //     name:'compAdminLogin',
+    {
+        path: '*',
+        component:compFontendMaster,
+        redirect:{path:'/dashboard'},
       
-       
-    // },
-    // {
-    //     path: '/admin', 
-    //     component: compAdminMaster,
-    //     name:'compAdminMaster',
-    //     redirect:{path:'admin/login'},
-    //     children:[
-    //         {
-    //             path: 'dashboard', 
-    //             component: compAdminDashboard,
-    //             name:"compAdminDashboard"
-    //         },
-    //         {
-    //             path: 'add-category', 
-    //             component: compAdminAddCategory,
-    //             name:"compAdminAddCategory"
-    //         },
-    //         {
-    //             path: 'all-category', 
-    //             component: compAdminAllCategory,
-    //             name:"compAdminAllCategory"
-    //         },
-    //         {
-    //             path: 'edit-category/:id', 
-    //             component: compAdminEditCategory,
-    //             name:"compAdminEditCategory"
-    //         },
-    //         // Admin Product Brand
-            
-    //         {
-    //             path: 'add-brand', 
-    //             component: compAdminAddBrand,
-    //             name:"compAdminAddBrand"
-    //         },
-    //         {
-    //             path: 'all-brand', 
-    //             component: compAdminAllBrand,
-    //             name:"compAdminAllBrand"
-    //         },
-    //         {
-    //             path: 'edit-brand/:id', 
-    //             component: compAdminEditBrand,
-    //             name:"compAdminEditBrand"
-    //         },
-    //         // All Product
-    //         {
-    //             path: 'all-products', 
-    //             component: compAllProduct,
-    //             name:'compAllProduct'
-    //         },
-    //         // all slider
-    //         {
-    //             path: 'all-sliders', 
-    //             component: compAllSlider,
-    //             name:'compAllSlider'
-    //         },
-    //     ]
-       
-    // },
-   
+    }
    
   ]

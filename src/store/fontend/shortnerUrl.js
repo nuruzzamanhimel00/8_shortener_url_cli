@@ -1,5 +1,6 @@
 
 import axios from "axios"
+import Api from '../../Api/Api.js'
 export default{
     namespaced:true,
     state:{
@@ -19,16 +20,18 @@ export default{
     actions:{
       
         getUrlsByUserid(context,userid){
-            axios.post(`/get-link/${userid}`)
-                .then(function (response) {
-                    if(response.data.status == 'success'){
-                        context.commit("getUrlsByUseridMut",response.data.getUrl);
-                    }
-                    
-                // console.log(response.data.getUrl);
-                })
-                .catch(function (error) {
-                console.log(error);
+            axios.post(`/get-link/${userid}`,{},{
+                headers:  Api.getHeaderWithAuth()  
+            })
+            .then(function (response) {
+                if(response.data.status == 'success'){
+                    context.commit("getUrlsByUseridMut",response.data.getUrl);
+                }
+                
+            // console.log(response.data.getUrl);
+            })
+            .catch(function (error) {
+            console.log(error);
             });
 
            

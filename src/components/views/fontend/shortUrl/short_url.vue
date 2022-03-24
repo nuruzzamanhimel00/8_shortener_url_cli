@@ -125,7 +125,8 @@ import("../../../../../node_modules/izitoast/dist/js/iziToast.min.js")
 import Swal from 'sweetalert2'
 import("../../../../../node_modules/sweetalert2/dist/sweetalert2.all.min.js")
 
-
+import AppStorage from '../../../../storage/AppStorage'
+import Api from '../../../../Api/Api.js'
 
 import {mapGetters , mapActions} from 'vuex'
 
@@ -136,21 +137,18 @@ export default {
                 fulllink: '',
                 visiteParMin: '',
                 ipBlockTime: '',
-                userid: localStorage.getItem('userid'),
+                // userid: localStorage.getItem('userid'),
+                userid: AppStorage.getUserId(),
                 id:''
-              
             }),
             timesRange:[],
             editModal: false,
-            
-            
         }
     },
     mounted(){
         this.userTokenExistCheck();
         this.createTimeRange();
-        this.getUrlsByUserid(this.form.userid);
-        //   this.footerManage();
+        this.getUrlsByUserid(AppStorage.getUserId());
     },
     computed:{
         ...mapGetters('fontendAuthMod',{userAuth:'userAccessTokenGetters'}),
@@ -162,7 +160,7 @@ export default {
        
     
         userTokenExistCheck(){
-            let userToken =  localStorage.getItem('UserToken');
+            let userToken =  AppStorage.getToken;
             if(!userToken){
                  this.$router.push({name:"compFontDashboard"});
             }
@@ -181,7 +179,9 @@ export default {
          async addShortUrl () {
 
 
-         await this.form.post('/generate-shorten-link')
+         await this.form.post('/generate-shorten-link',{
+              headers : Api.getHeaderWithAuth()  
+            })
             .then((response)=>{
              if(response.data.status == 'success'){
                    this.form.reset();
@@ -190,7 +190,7 @@ export default {
                     title: 'OK',
                     message: 'Shortner URL Created Successfully',
                     });
-                    this.getUrlsByUserid(this.form.userid);
+                    this.getUrlsByUserid(AppStorage.getUserId());
              }
             });
        
@@ -198,7 +198,9 @@ export default {
          async updateShortUrl () {
 
 
-            await this.form.put(`/update-link/${this.form.id}/user/${this.form.userid}`)
+            await this.form.put(`/update-link/${this.form.id}/user/${AppStorage.getUserId()}`,{
+                headers : Api.getHeaderWithAuth()  
+                })
                 .then((response)=>{
                 if(response.data.status == 'success'){
                     this.form.reset();
@@ -207,7 +209,7 @@ export default {
                     title: 'OK',
                     message: 'Shortner URL Update Successfully',
                     });
-                    this.getUrlsByUserid(this.form.userid);
+                    this.getUrlsByUserid(AppStorage.getUserId());
                 }
                 });
        
@@ -216,14 +218,15 @@ export default {
                this.form.reset();
                 this.editModal = true;
                 let userid = localStorage.getItem('userid');
-             axios.post(`/show-link/${id}/user/${userid}`)
+             axios.post(`/show-link/${id}/user/${userid}`,{},{
+                headers : Api.getHeaderWithAuth()  
+                })
                 .then((response) => {
                     if(response.data.status == 'success'){
                         this.form.fill(response.data.singleUrl);
                          this.$refs['my-modal'].show();
                     }
-                    
-                    console.log(response.data);
+                    // console.log(response.data);
                 })
                 .catch(function (error) {
                 console.log(error);
@@ -243,7 +246,9 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        axios.delete(`/delete-link/${id}/user/${userid}`)
+                        axios.delete(`/delete-link/${id}/user/${userid}`,{
+                        headers : Api.getHeaderWithAuth()  
+                        })
                         .then((response) => {
                             if(response.data.status == 'success'){
                                 Swal.fire(
@@ -251,10 +256,8 @@ export default {
                                 'Shortner URL Deleted Successfully',
                                 'success'
                                 );
-                                this.getUrlsByUserid(this.form.userid);
+                                this.getUrlsByUserid(AppStorage.getUserId());
                             }
-                            
-                            console.log(response.data);
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -265,18 +268,7 @@ export default {
                     }
                 });
         },
-        footerManage(){
-            //  let bodyHeight = $('body').innerHeight();
-            //  let navHeight =$(".navSection").innerHeight();
-            //  let footerHeight =$(".footerSection").innerHeight();
-
-            // let contentHeight = bodyHeight - (navHeight +  footerHeight);
-            // $(".mainBodySection").attr('style',"height:"+contentHeight+"px")
-            //  console.log(bodyHeight);
-            //  console.log(navHeight);
-            //  console.log(footerHeight);
-            //  console.log(contentHeight);
-         }
+        
         
 
     },

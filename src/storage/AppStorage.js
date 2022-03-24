@@ -3,6 +3,10 @@ class AppStorage{
         return JSON.parse (localStorage.getItem('UserToken') );
     }
 
+    getUserId(){
+        return JSON.parse (localStorage.getItem('userid') );
+    }
+
     setToken(tokenName,token){
         localStorage.setItem (tokenName,JSON.stringify(token));
     }

@@ -19,10 +19,7 @@ export default{
     actions:{
       
         getUrlsByUserid(context,userid){
-
-            axios.post('/get-shorten-link', {
-                userid: userid,
-                })
+            axios.post(`/get-link/${userid}`)
                 .then(function (response) {
                     if(response.data.status == 'success'){
                         context.commit("getUrlsByUseridMut",response.data.getUrl);
@@ -33,6 +30,7 @@ export default{
                 .catch(function (error) {
                 console.log(error);
             });
+
            
         }
     }

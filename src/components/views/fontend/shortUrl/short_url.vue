@@ -28,7 +28,7 @@
                                         <tbody>
                                             <tr v-for="(value,key) in fetchShortenUrls" :key="key">
                                                     <td>{{key+1}}</td>
-                                                    <td><a href="">
+                                                    <td><a :href="value.shortlink" target="__blank">
                                                         {{ value.shortlink }}    
                                                     </a></td>
                                                     <td>
@@ -114,7 +114,7 @@ import Form from 'vform'
 
 import axios from 'axios'
 
-import $ from "jquery";
+// import $ from "jquery";
 
 // //izitoast toster insall
 import iziToast from "izitoast"
@@ -150,7 +150,7 @@ export default {
         this.userTokenExistCheck();
         this.createTimeRange();
         this.getUrlsByUserid(this.form.userid);
-          this.footerManage();
+        //   this.footerManage();
     },
     computed:{
         ...mapGetters('fontendAuthMod',{userAuth:'userAccessTokenGetters'}),
@@ -215,7 +215,8 @@ export default {
         editShortUrl(id){
                this.form.reset();
                 this.editModal = true;
-             axios.post(`/show-link/${id}`)
+                let userid = localStorage.getItem('userid');
+             axios.post(`/show-link/${id}/user/${userid}`)
                 .then((response) => {
                     if(response.data.status == 'success'){
                         this.form.fill(response.data.singleUrl);
@@ -265,12 +266,12 @@ export default {
                 });
         },
         footerManage(){
-             let bodyHeight = $('body').innerHeight();
-             let navHeight =$(".navSection").innerHeight();
-             let footerHeight =$(".footerSection").innerHeight();
+            //  let bodyHeight = $('body').innerHeight();
+            //  let navHeight =$(".navSection").innerHeight();
+            //  let footerHeight =$(".footerSection").innerHeight();
 
-            let contentHeight = bodyHeight - (navHeight +  footerHeight);
-            $(".mainBodySection").attr('style',"height:"+contentHeight+"px")
+            // let contentHeight = bodyHeight - (navHeight +  footerHeight);
+            // $(".mainBodySection").attr('style',"height:"+contentHeight+"px")
             //  console.log(bodyHeight);
             //  console.log(navHeight);
             //  console.log(footerHeight);

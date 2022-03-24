@@ -1,5 +1,6 @@
 
 import axios from "axios"
+import Api from '../../../Api/Api.js'
 export default{
     namespaced:true,
     state:{
@@ -30,8 +31,10 @@ export default{
             }else{
                 axios.post('/access-token', {
                     accessToken: accessToken,
+                  },{
+                      headers:  Api.getHeaderWithAuth()  
                   })
-                  .then(function (response) {
+                  .then((response) => {
                       context.commit("fetchAuthUserInfo",response.data.data);
                     // console.log(response.data.data);
                   })

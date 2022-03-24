@@ -1,5 +1,5 @@
 <template>
-    <div id="fontendRegister">
+    <div id="fontendRegister"  class="mainBodySection">
             <div class="contentSection mt-5">
              <div class="container">
                  <div class="row justify-content-center mt-5">
@@ -59,6 +59,7 @@ import iziToast from "izitoast"
 import("../../../../../node_modules/izitoast/dist/css/iziToast.min.css")
 import("../../../../../node_modules/izitoast/dist/js/iziToast.min.js")
 
+import $ from "jquery";
 import {mapGetters , mapActions} from 'vuex'
 
 export default {
@@ -73,6 +74,7 @@ export default {
     },
     mounted(){
         this.userTokenExistCheck();
+         this.footerManage();
     },
     computed:{
         ...mapGetters('fontendAuthMod',{userAuth:'userAccessTokenGetters'}),
@@ -129,7 +131,19 @@ export default {
             if(userToken){
                  this.$router.push({name:"compFontDashboard"});
             }
-        }
+        },
+        footerManage(){
+             let windowHeight = window.innerHeight;
+             let navHeight =$(".navSection").innerHeight();
+             let footerHeight =$(".footerSection").innerHeight();
+
+            let contentHeight = windowHeight - (navHeight +  footerHeight);
+            $(".mainBodySection").attr('style',"height:"+contentHeight+"px")
+            //  console.log(windowHeight);
+            //  console.log(navHeight);
+            //  console.log(footerHeight);
+            //  console.log(contentHeight);
+         }
         
 
     },

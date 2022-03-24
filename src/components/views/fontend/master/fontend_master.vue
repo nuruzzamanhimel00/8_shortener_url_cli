@@ -60,9 +60,15 @@ import moment from 'moment';
 
 import {mapGetters , mapActions} from 'vuex'
 
-// import $ from "jquery";
+import axios from 'axios' 
 
 import AppStorage from '../../../../storage/AppStorage.js'
+import Api from '../../../../Api/Api.js'
+
+// //izitoast toster insall
+import iziToast from "izitoast"
+import("../../../../../node_modules/izitoast/dist/css/iziToast.min.css")
+import("../../../../../node_modules/izitoast/dist/js/iziToast.min.js")
 
 export default {
     data(){
@@ -98,8 +104,22 @@ export default {
             }
          },
          logount(){
-            AppStorage.removeToken('UserToken');
-            AppStorage.removeToken('userid');
+              axios.post(`/logout`,{},{
+                headers : Api.getHeaderWithAuth()  
+                })
+                .then((response) => {
+                    if(response.data.status == 'success'){
+                        iziToast.success({
+                        title: 'OK',
+                        message: response.data.message,
+                        });
+                    }
+                    
+                })
+                .catch(function (error) {
+                console.log(error);
+            });
+            AppStorage.localStorageReset();
             this.userAccessToken(null);
             this.$router.push({name:"compFontDashboard"});
          },    

@@ -15,6 +15,11 @@ class AppStorage{
         localStorage.removeItem (tokenName);
     }
 
+    localStorageReset(){
+        localStorage.removeItem ('UserToken');
+        localStorage.removeItem ('userid');
+    }
+
 }
 
 export default new AppStorage;

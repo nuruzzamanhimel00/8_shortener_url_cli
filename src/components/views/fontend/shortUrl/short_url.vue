@@ -217,8 +217,11 @@ export default {
         editShortUrl(id){
                this.form.reset();
                 this.editModal = true;
-                let userid = localStorage.getItem('userid');
-             axios.post(`/show-link/${id}/user/${userid}`,{},{
+                let userid = AppStorage.getUserId();
+             axios.post("/view-link",{
+                 id: id,
+                 userid: userid
+             },{
                 headers : Api.getHeaderWithAuth()  
                 })
                 .then((response) => {

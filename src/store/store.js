@@ -5,9 +5,6 @@ import Vuex from 'vuex'
 import fontendAuthModules from './fontend/auth/fontend_auth.js'
 
 import ShortnerUrlModules from './fontend/shortnerUrl.js'
-
-
-
 Vue.use(Vuex)
 
  const store = new Vuex.Store({
@@ -15,8 +12,6 @@ Vue.use(Vuex)
      //fontend auth
      fontendAuthMod:fontendAuthModules,
      shortnerUrlMod:ShortnerUrlModules,
-
-
   } ,
   state: {
 
